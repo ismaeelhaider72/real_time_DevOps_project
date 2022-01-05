@@ -32,7 +32,7 @@ jobs:
            echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
            echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
      - name: terraform initialization 
-       run: cd devops/  
+       run: cd devops/ && terraform init
      - name: terraform deployment
        run: cd devops/ && terraform destroy -var="tag=latest"  -auto-approve
 
