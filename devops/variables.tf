@@ -1,16 +1,16 @@
 variable "aws_region" {
   description = "The AWS region things are created in"
-  default     = "ap-south-1"
+  default     = "us-east-2"
 }
 
 variable "ecs_task_execution_role_name" {
   description = "ECS task execution role name"
-  default = "myEcsTaskExecutionRole"
+  default = "ismaeel-myEcsTaskExecutionRole"
 }
 
 variable "ecs_auto_scale_role_name" {
   description = "ECS auto scale role Name"
-  default = "myEcsAutoScaleRole"
+  default = "ismaeel-myEcsAutoScaleRole"
 }
 
 variable "az_count" {
@@ -20,7 +20,7 @@ variable "az_count" {
 
 variable "app_port" {
   description = "Port exposed by the docker image to redirect traffic to"
-  default     = 8080
+  default     = 80
 }
 
 variable "app_count" {
