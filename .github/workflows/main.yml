@@ -34,6 +34,6 @@ jobs:
      - name: terraform initialization 
        run: cd devops/ && terraform init
      - name: terraform deployment
-       run: cd devops/ && terraform apply -var="tag=latest"  -auto-approve
+       run: cd devops/ && terraform apply -var="tag=latest"  -auto-approve -lock=false
 
      
