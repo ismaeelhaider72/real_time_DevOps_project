@@ -18,7 +18,7 @@ jobs:
        run: |         
           sudo docker build -t ismaeel-test-repo .
           sudo docker tag ismaeel-test-repo:latest ${{ secrets.ACCOUNTID }}.dkr.ecr.us-east-2.amazonaws.com/ismaeel-test-repo:latest
-          sudo aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin ${{ secrets.ACCOUNTID }}.dkr.ecr.us-east-2.amazonaws.com 
+          sudo $(aws ecr get-login --no-include-email --region us-east-2)
           sudo docker push ${{ secrets.ACCOUNTID }}.dkr.ecr.us-east-2.amazonaws.com/ismaeel-test-repo:latest
        env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
