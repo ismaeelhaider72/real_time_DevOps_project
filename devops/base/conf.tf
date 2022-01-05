@@ -1,17 +1,17 @@
 provider "aws" {
   version = "~> 3.0"
-  region  = "ap-south-1"
+  region  = "us-east-2"
 }
 
 terraform {
   backend "s3" {
-    bucket = "jms-terraform-backend"
+    bucket = "ismaeelhtmltemplatesbucket"
     key    = "jmsth_base.tfstate"
-    region = "ap-south-1"
+    region = "us-east-2"
   }
 }
 resource "aws_ecr_repository" "myrepo" {
-  name                 = "nodeapp"
+  name                 = "ismaeel-test-repo"
 
   image_scanning_configuration {
     scan_on_push = true
