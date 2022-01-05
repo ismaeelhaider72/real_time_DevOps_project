@@ -16,9 +16,10 @@ jobs:
        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
      - name: build docker image and push to ecr repo
        run: |
-          sudo docker build -t ${{ secrets.ECR_REPO_NAME }}/ismaeel-test-repo:latest .
-          $(aws ecr get-login --region us-east-2)
-          sudo docker push ${{ secrets.ECR_REPO_NAME }}/ismaeel-test-repo:latest
+          sudo aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 489994096722.dkr.ecr.us-east-2.amazonaws.com
+          sudo docker build -t ismaeel-test-repo .
+          sudo docker tag ismaeel-test-repo:latest 489994096722.dkr.ecr.us-east-2.amazonaws.com/ismaeel-test-repo:latest
+          sudo docker push 489994096722.dkr.ecr.us-east-2.amazonaws.com/ismaeel-test-repo:latest
        env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
