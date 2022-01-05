@@ -7,7 +7,7 @@ terraform {
   backend "s3" {
     bucket = "ismaeelhtmltemplatesbucket"
     key    = "jmsth_base.tfstate"
-    region = "us-east-2"
+    region = "us-east-1"
   }
 }
 resource "aws_ecr_repository" "myrepo" {
