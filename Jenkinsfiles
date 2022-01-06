@@ -32,6 +32,7 @@
                         sh "sudo apt install docker.io -y"
                         sh "sudo docker build -t ismaeel-test-repo ."
                         sh "sudo docker tag ismaeel-test-repo:latest ${ACCOUNTID}.dkr.ecr.us-east-2.amazonaws.com/ismaeel-test-repo:latest"
+                        sh "sudo docker rmi $(sudo docker images -f "dangling=true" -q)"
                         sh "sudo \$(aws ecr get-login --no-include-email --region us-east-2"
                         sh "sudo docker push ${ACCOUNTID}.dkr.ecr.us-east-2.amazonaws.com/ismaeel-test-repo:latest"
                         
