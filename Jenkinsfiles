@@ -1,0 +1,62 @@
+ pipeline {
+    agent any
+    tools {
+          terraform 'terraform-12'
+        }
+       
+    stages {
+        stage ('git configuration '){
+            steps{
+                git 'https://github.com/ismaeelhaider72/real_time_DevOps_project'
+            }
+        }
+        stage ('Installing Dependencies') {
+              steps {
+                        script {
+                            sh "terraform --version"                            
+                                  }
+              }
+        
+            
+                                                
+                }
+                
+        stage ('docker configuration '){
+            environment {
+              ACCOUNTID = "489994096722"
+            } 
+            steps{
+                script{
+                        withCredentials([string(credentialsId: 'AccessKeyID', variable: 'AWS_ACCESS_KEY_ID'), string(credentialsId: 'SecretAccessKey', variable: 'AWS_SECRET_ACCESS_KEY')]) {
+                        sh "echo install docker"
+                        sh "sudo apt install docker.io -y"
+                        sh "sudo docker build -t ismaeel-test-repo ."
+                        sh "sudo docker tag ismaeel-test-repo:latest ${ACCOUNTID}.dkr.ecr.us-east-2.amazonaws.com/ismaeel-test-repo:latest"
+                        sh "sudo \$(aws ecr get-login --no-include-email --region us-east-2"
+                        sh "sudo docker push ${ACCOUNTID}.dkr.ecr.us-east-2.amazonaws.com/ismaeel-test-repo:latest"
+                        
+                }
+                }  
+            }
+            }
+
+        stage ('terraform configuration '){
+            environment {
+              ACCOUNTID = "489994096722"
+            } 
+            steps{
+                script{
+                        withCredentials([string(credentialsId: 'AccessKeyID', variable: 'AWS_ACCESS_KEY_ID'), string(credentialsId: 'SecretAccessKey', variable: 'AWS_SECRET_ACCESS_KEY')]) {
+                        sh "cd devops/ && terraform init"
+                        sh "cd devops/ && terraform destroy -var='tag=latest'  -auto-approve -lock=false"
+                        sh "aws ecs update-service --cluster ismaeel-jms-cluster  --service jms-service1 --force-new-deployment --region us-east-2"
+                        
+                }
+                }    
+            }
+            }
+            
+            
+        }
+                
+     }
