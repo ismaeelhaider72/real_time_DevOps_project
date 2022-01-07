@@ -1,15 +1,18 @@
+ properties([pipelineTriggers([githubPush()])])
  pipeline {
-    agent any
+    agent any 
     tools {
           terraform 'terraform-12'
         }
+
        
     stages {
         stage ('git configuration '){
             steps{
                 git 'https://github.com/ismaeelhaider72/real_time_DevOps_project'
             }
-        }
+        }        
+        
         stage ('Installing Dependencies') {
               steps {
                         script {
@@ -32,8 +35,8 @@
                         sh "sudo apt install docker.io -y"
                         sh "sudo docker build -t ismaeel-test-repo ."
                         sh "sudo docker tag ismaeel-test-repo:latest ${ACCOUNTID}.dkr.ecr.us-east-2.amazonaws.com/ismaeel-test-repo:latest"
-                        sh "sudo docker rmi $(sudo docker images -f "dangling=true" -q)"
-                        sh "sudo \$(aws ecr get-login --no-include-email --region us-east-2"
+                        sh "sudo apt install awscli -y"
+                        sh "sudo \$(aws ecr get-login --no-include-email --region us-east-2)"
                         sh "sudo docker push ${ACCOUNTID}.dkr.ecr.us-east-2.amazonaws.com/ismaeel-test-repo:latest"
                         
                 }
